@@ -924,4 +924,4 @@ with block:
     run_button2.click(fn=process2, inputs=ips, outputs=[result_keyframe])
     run_button3.click(fn=process3, inputs=ips_process3, outputs=[result_video])
 
-block.launch(server_name='0.0.0.0')
+block.launch()
