@@ -1,5 +1,5 @@
 module.exports = {
-  title: "Rerender A Video"
+  title: "Rerender A Video",
       description: "Rerender_A_Video: Zero-Shot Text-Guided Video-to-Video Translation",
       icon: "icon.png",
   menu: [{
