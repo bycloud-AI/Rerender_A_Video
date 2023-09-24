@@ -1,0 +1,78 @@
+{
+  "run": [
+    {
+      "method": "input",
+      "params": {
+        "title": "Starting...",
+        "description": "The installation of the dependencies will start now..."
+      }
+    },
+    {
+      "method": "shell.start",
+      "params": {
+        "path": "",
+        "env": {
+          "HF_HOME": "../"
+        }
+      }
+    },
+    {
+      "method": "shell.enter",
+      "params": {
+      "message": "conda create -n reRenderVideo python=3.10 -y",
+      "on": [{ "event": null, "return": true }]
+      }
+    },
+    {
+      "method": "shell.enter",
+      "params": {
+        "message": "call activate reRenderVideo",
+        "on": [{ "event": null, "return": true }]
+      }
+    },
+    {
+      "method": "shell.enter",
+      "params": {
+        "message": "pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118",
+      "on": [{ "event": null, "return": true }]
+    }
+    },
+    {
+      "method": "shell.enter",
+      "params": {
+      "message": "pip install xformers",
+      "on": [{ "event": null, "return": true }]
+    }
+    },
+    {
+      "method": "shell.enter",
+      "params": {
+        "message": "git submodule update --init --recursive",
+      
+      "on": [{ "event": null, "return": true }]
+    }
+    },
+    {
+      "method": "shell.enter",
+      "params": {
+        "message": "pip install -r requirements.txt",
+        "on": [{ "event": null, "return": true }]
+      }
+    },
+    {
+      "method": "shell.enter",
+      "params": {
+        "message": "python install.py",
+        "on": [{ "event": null, "return": true }]
+      }
+    },
+      {
+      "method": "input",
+      "params": {
+        "title": "Install Success",
+        "description": "Go back to the dashboard and launch the app!"
+      }
+    }
+
+  ]
+}
