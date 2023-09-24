@@ -54,311 +54,354 @@ This tutorial is made by the team at bycloud AI, feel free to support our endevo
 
 ---
 
-<p align="center">
-    <img src="assets/logo.png" width="400">
-</p>
+# Rerender A Video - Official PyTorch Implementation
 
-## DiffBIR: Towards Blind Image Restoration with Generative Diffusion Prior
+![teaser](https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/aa7dc164-dab7-43f4-a46b-758b34911f16)
 
-[Paper](https://arxiv.org/abs/2308.15070) | [Project Page](https://0x3f3f3f3fun.github.io/projects/diffbir/)
+<!--https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/82c35efb-e86b-4376-bfbe-6b69159b8879-->
 
-![visitors](https://visitor-badge.laobi.icu/badge?page_id=XPixelGroup/DiffBIR) [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/camenduru/DiffBIR-colab/blob/main/DiffBIR_colab.ipynb)
 
-[Xinqi Lin](https://0x3f3f3f3fun.github.io/)<sup>1,\*</sup>, [Jingwen He](https://github.com/hejingwenhejingwen)<sup>2,\*</sup>, [Ziyan Chen](https://orcid.org/0000-0001-6277-5635)<sup>2</sup>, [Zhaoyang Lyu](https://scholar.google.com.tw/citations?user=gkXFhbwAAAAJ&hl=en)<sup>2</sup>, [Ben Fei](https://scholar.google.com/citations?user=skQROj8AAAAJ&hl=zh-CN&oi=ao)<sup>2</sup>, [Bo Dai](http://daibo.info/)<sup>2</sup>, [Wanli Ouyang](https://wlouyang.github.io/)<sup>2</sup>, [Yu Qiao](http://mmlab.siat.ac.cn/yuqiao)<sup>2</sup>, [Chao Dong](http://xpixel.group/2010/01/20/chaodong.html)<sup>1,2</sup>
+**Rerender A Video: Zero-Shot Text-Guided Video-to-Video Translation**<br>
+[Shuai Yang](https://williamyang1991.github.io/), [Yifan Zhou](https://zhouyifan.net/), [Ziwei Liu](https://liuziwei7.github.io/) and [Chen Change Loy](https://www.mmlab-ntu.com/person/ccloy/)<br>
+in SIGGRAPH Asia 2023 Conference Proceedings <br>
+[**Project Page**](https://www.mmlab-ntu.com/project/rerender/) | [**Paper**](https://arxiv.org/abs/2306.07954) | [**Supplementary Video**](https://youtu.be/cxfxdepKVaM) | [**Input Data and Video Results**](https://drive.google.com/file/d/1HkxG5eiLM_TQbbMZYOwjDbd5gWisOy4m/view?usp=sharing) <br>
 
-<sup>1</sup>Shenzhen Institute of Advanced Technology, Chinese Academy of Sciences<br><sup>2</sup>Shanghai AI Laboratory
+<a href="https://huggingface.co/spaces/Anonymous-sub/Rerender"><img src="https://huggingface.co/datasets/huggingface/badges/raw/main/open-in-hf-spaces-sm-dark.svg" alt="Web Demo"></a> ![visitors](https://visitor-badge.laobi.icu/badge?page_id=williamyang1991/Rerender_A_Video)
 
-<p align="center">
-    <img src="assets/architecture.png" style="border-radius: 15px">
-</p>
+> **Abstract:** *Large text-to-image diffusion models have exhibited impressive proficiency in generating high-quality images. However, when applying these models to video domain, ensuring temporal consistency across video frames remains a formidable challenge. This paper proposes a novel zero-shot text-guided video-to-video translation framework to adapt image models to videos. The framework includes two parts: key frame translation and full video translation. The first part uses an adapted diffusion model to generate key frames, with hierarchical cross-frame constraints applied to enforce coherence in shapes, textures and colors. The second part propagates the key frames to other frames with temporal-aware patch matching and frame blending. Our framework achieves global style and local texture temporal consistency at a low cost (without re-training or optimization). The adaptation is compatible with existing image diffusion techniques, allowing our framework to take advantage of them, such as customizing a specific subject with LoRA, and introducing extra spatial guidance with ControlNet. Extensive experimental results demonstrate the effectiveness of our proposed framework over existing methods in rendering high-quality and temporally-coherent videos.*
 
-:star:If DiffBIR is helpful for you, please help star this repo. Thanks!:hugs:
+**Features**:<br>
+- **Temporal consistency**: cross-frame constraints for low-level temporal consistency.
+- **Zero-shot**: no training or fine-tuning required.
+- **Flexibility**: compatible with off-the-shelf models (e.g., [ControlNet](https://github.com/lllyasviel/ControlNet), [LoRA](https://civitai.com/)) for customized translation.
 
-## :book:Table Of Contents
+https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/811fdea3-f0da-49c9-92b8-2d2ad360f0d6
 
-- [Visual Results On Real-world Images](#visual_results)
-- [Installation](#installation)
-- [Pretrained Models](#pretrained_models)
-- [Quick Start (gradio demo)](#quick_start)
-- [Inference](#inference)
-- [Train](#train)
-- [Update](#update)
-- [TODO](#todo)
+## Updates
 
-## <a name="visual_results"></a>:eyes:Visual Results On Real-world Images
+- [09/2023] Code is released.
+- [09/2023] Accepted to SIGGRAPH Asia 2023 Conference Proceedings!
+- [06/2023] Integrated to 🤗 [Hugging Face](https://huggingface.co/spaces/Anonymous-sub/Rerender). Enjoy the web demo!
+- [05/2023] This website is created.
 
-<!-- <details close>
-<summary>General Image Restoration</summary> -->
-### General Image Restoration
+### TODO
+- [x] Integrate into Diffusers.
+- [x] ~~Add Inference instructions in README.md.~~
+- [x] ~~Add Examples to webUI.~~
+- [x] ~~Add optional poisson fusion to the pipeline.~~
+- [x] ~~Add Installation instructions for Windows~~
 
-[<img src="assets/visual_results/general6.png" height="223px"/>](https://imgsli.com/MTk5ODI3) [<img src="assets/visual_results/general7.png" height="223px"/>](https://imgsli.com/MTk5ODI4) [<img src="assets/visual_results/general4.png" height="223px"/>](https://imgsli.com/MTk5ODI1)
+## Installation
 
-[<img src="assets/visual_results/general1.png" height="223px"/>](https://imgsli.com/MTk5ODIy) [<img src="assets/visual_results/general2.png" height="223px"/>](https://imgsli.com/MTk5ODIz)
+*Please make sure your installation path only contain English letters or _*
 
-[<img src="assets/visual_results/general3.png" height="223px"/>](https://imgsli.com/MTk5ODI0) [<img src="assets/visual_results/general5.png" height="223px"/>](https://imgsli.com/MjAxMjM0)
-
-<!-- </details> -->
-
-<!-- <details close> -->
-<!-- <summary>Face Image Restoration</summary> -->
-### Face Image Restoration
-
-[<img src="assets/visual_results/face1.png" height="223px"/>](https://imgsli.com/MTk5ODI5) [<img src="assets/visual_results/face2.png" height="223px"/>](https://imgsli.com/MTk5ODMw) [<img src="assets/visual_results/face3.png" height="223px"/>](https://imgsli.com/MTk5ODMy)
-
-[<img src="assets/visual_results/face4.png" height="223px"/>](https://imgsli.com/MTk5ODM0) [<img src="assets/visual_results/face5.png" height="223px"/>](https://imgsli.com/MTk5ODM1) [<img src="assets/visual_results/face6.png" height="223px"/>](https://imgsli.com/MTk5ODM2)
-
-[<img src="assets/visual_results/whole_image1.png" height="410px"/>](https://imgsli.com/MjA0MzQw)
-
-<!-- </details> -->
-
-## <a name="installation"></a>:gear:Installation
-- **Python** >= 3.9
-- **CUDA** >= 11.3
-- **PyTorch** >= 1.12.1
-- **xformers** == 0.0.16
+1. Clone the repository. (Don't forget --recursive. Otherwise, please run `git submodule update --init --recursive`)
 
 ```shell
-# clone this repo
-git clone https://github.com/XPixelGroup/DiffBIR.git
-cd DiffBIR
+git clone git@github.com:williamyang1991/Rerender_A_Video.git --recursive
+cd Rerender_A_Video
+```
 
-# create a conda environment with python >= 3.9
-conda create -n diffbir python=3.9
-conda activate diffbir
+2. If you have installed PyTorch CUDA, you can simply set up the environment with pip.
 
-conda install pytorch==1.12.1 torchvision==0.13.1 cudatoolkit=11.3 -c pytorch
-conda install xformers==0.0.16 -c xformers
-
-# other dependencies
+```shell
 pip install -r requirements.txt
 ```
 
-## <a name="pretrained_models"></a>:dna:Pretrained Models
-
-| Model Name | Description |
-| :--------- | :---------- |
-| [general_swinir_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/general_swinir_v1.ckpt) | Stage1 model (SwinIR) for general image restoration. |
-| [general_full_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/general_full_v1.ckpt) | Full model for general image restoration. "Full" means it contains both the stage1 and stage2 model. |
-| [face_swinir_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/face_swinir_v1.ckpt) | Stage1 model (SwinIR) for face restoration. |
-| [face_full_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/face_full_v1.ckpt) | Full model for face restoration. |
-
-## <a name="quick_start"></a>:flight_departure:Quick Start
-
-Download [general_full_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/general_full_v1.ckpt) and [general_swinir_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/general_swinir_v1.ckpt) to `weights/`, then run the following command to interact with the gradio website.
-
-```
-python gradio_diffbir.py \
---ckpt weights/general_full_v1.ckpt \
---config configs/model/cldm.yaml \
---reload_swinir \
---swinir_ckpt weights/general_swinir_v1.ckpt
-```
-
-<div align="center">
-    <kbd><img src="assets/gradio.png"></img></kbd>
-</div>
-
-## <a name="inference"></a>:crossed_swords:Inference
-
-### Full Pipeline (Remove Degradations & Refine Details)
-
-#### General Image
-
-Download [general_full_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/general_full_v1.ckpt) and [general_swinir_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/general_swinir_v1.ckpt) to `weights/` and run the following command.
+You can also create a new conda environment from scratch.
 
 ```shell
-python inference.py \
---input inputs/general \
---config configs/model/cldm.yaml \
---ckpt weights/general_full_v1.ckpt \
---reload_swinir --swinir_ckpt weights/general_swinir_v1.ckpt \
---steps 50 \
---sr_scale 4 \
---image_size 512 \
---color_fix_type wavelet --resize_back \
---output results/general
+conda env create -f environment.yml
+conda activate rerender
 ```
+24GB VRAM is required. Please refer to https://github.com/williamyang1991/Rerender_A_Video/pull/23#issue-1900789461 to reduce memory consumption.
 
-If you are confused about where the `reload_swinir` option came from, please refer to the [degradation details](#degradation-details).
-
-#### Face Image
-Download [face_full_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/face_full_v1.ckpt) to `weights/` and run the following command.
+3. Run the installation script. The required models will be downloaded in `./models`.
 
 ```shell
-# for aligned face inputs
-python inference_face.py \
---config configs/model/cldm.yaml \
---ckpt weights/face_full_v1.ckpt \
---input inputs/face/aligned \
---steps 50 \
---sr_scale 1 \
---image_size 512 \
---color_fix_type wavelet \
---output results/face/aligned --resize_back \
---has_aligned
-
-# for unaligned face inputs
-python inference_face.py \
---config configs/model/cldm.yaml \
---ckpt weights/face_full_v1.ckpt \
---input inputs/face/whole_img \
---steps 50 \
---sr_scale 1 \
---image_size 512 \
---color_fix_type wavelet \
---output results/face/whole_img --resize_back
+python install.py
 ```
 
-### Only Stage1 Model (Remove Degradations)
-
-Download [general_swinir_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/general_swinir_v1.ckpt), [face_swinir_v1.ckpt](https://huggingface.co/lxq007/DiffBIR/resolve/main/face_swinir_v1.ckpt) for general, face image respectively, and run the following command.
+4. You can run the demo with `rerender.py`
 
 ```shell
-python scripts/inference_stage1.py \
---config configs/model/swinir.yaml \
---ckpt [swinir_ckpt_path] \
---input [lq_dir] \
---sr_scale 1 --image_size 512 \
---output [output_dir_path]
+python rerender.py --cfg config/real2sculpture.json
 ```
 
-### Only Stage2 Model (Refine Details)
+<details>
+<summary>Installation on Windows</summary>
 
-Since the proposed two-stage pipeline is very flexible, you can utilize other awesome models to remove degradations instead of SwinIR and then leverage the Stable Diffusion to refine details.
+  Before running the above 1-4 steps, you need prepare:
+1. Install [CUDA](https://developer.nvidia.com/cuda-toolkit-archive)
+2. Install [git](https://git-scm.com/download/win)
+3. Install [VS](https://visualstudio.microsoft.com/) with Windows 10/11 SDK (for building deps/ebsynth/bin/ebsynth.exe)
+</details>
+
+<details>
+<summary>Installation or Running Fails?</summary>
+
+1. In case building ebsynth fails, we provides our complied [ebsynth](https://drive.google.com/drive/folders/1oSB3imKwZGz69q2unBUfcgmQpzwccoyD?usp=sharing)
+2. `FileNotFoundError: [Errno 2] No such file or directory: 'xxxx.bin' or 'xxxx.jpg'`:
+    - make sure your path only contains English letters or _ (https://github.com/williamyang1991/Rerender_A_Video/issues/18#issuecomment-1723361433)
+    - if some non-keyframes are generated but somes are not, rather than missing all non-keyframes in '/out_xx/', you may refer to https://github.com/williamyang1991/Rerender_A_Video/issues/38#issuecomment-1730668991
+5. `KeyError: 'dataset'`: upgrade Gradio to the latest version (https://github.com/williamyang1991/Rerender_A_Video/issues/14#issuecomment-1722778672, https://github.com/AUTOMATIC1111/stable-diffusion-webui/issues/11855)
+6. Error when processing videos: manually install ffmpeg (https://github.com/williamyang1991/Rerender_A_Video/issues/19#issuecomment-1723685825, https://github.com/williamyang1991/Rerender_A_Video/issues/29#issuecomment-1726091112)
+7. `ERR_ADDRESS_INVALID` Cannot open the webUI in browser: replace 0.0.0.0 with 127.0.0.1 in webUI.py (https://github.com/williamyang1991/Rerender_A_Video/issues/19#issuecomment-1723685825)
+8. `CUDA out of memory`: (https://github.com/williamyang1991/Rerender_A_Video/pull/23#issue-1900789461)
+9. `AttributeError: module 'keras.backend' has no attribute 'is_tensor'`: update einops (https://github.com/williamyang1991/Rerender_A_Video/issues/26#issuecomment-1726682446)
+10. `IndexError: list index out of range`: use the original DDIM steps of 20 (https://github.com/williamyang1991/Rerender_A_Video/issues/30#issuecomment-1729039779)
+ 
+</details>
+
+
+## (1) Inference
+
+### WebUI (recommended)
+
+```
+python webUI.py
+```
+The Gradio app also allows you to flexibly change the inference options. Just try it for more details. (For WebUI, you need to download [revAnimated_v11](https://civitai.com/models/7371/rev-animated?modelVersionId=19575) and [realisticVisionV20_v20](https://civitai.com/models/4201?modelVersionId=29460) to `./models/` after Installation)
+
+Upload your video, input the prompt, select the seed, and hit:
+- **Run 1st Key Frame**: only translate the first frame, so you can adjust the prompts/models/parameters to find your ideal output appearance before running the whole video.
+- **Run Key Frames**: translate all the key frames based on the settings of the first frame, so you can adjust the temporal-related parameters for better temporal consistency before running the whole video.
+- **Run Propagation**: propagate the key frames to other frames for full video translation
+- **Run All**: **Run 1st Key Frame**, **Run Key Frames** and **Run Propagation**
+
+![UI](https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/eb4e1ddc-11a3-42dd-baa4-622eecef04c7)
+
+
+We provide abundant advanced options to play with
+
+<details>
+<summary> <b>Using customized models</b></summary>
+
+- Using LoRA/Dreambooth/Finetuned/Mixed SD models
+  - Modify `sd_model_cfg.py` to add paths to the saved SD models
+  - How to use LoRA: https://github.com/williamyang1991/Rerender_A_Video/issues/39#issuecomment-1730678296
+- Using other controls from ControlNet (e.g., Depth, Pose)
+  - Add more options like `control_type = gr.Dropdown(['HED', 'canny', 'depth']` here https://github.com/williamyang1991/Rerender_A_Video/blob/b6cafb5d80a79a3ef831c689ffad92ec095f2794/webUI.py#L690
+  - Add model loading options like `elif control_type == 'depth':` following https://github.com/williamyang1991/Rerender_A_Video/blob/b6cafb5d80a79a3ef831c689ffad92ec095f2794/webUI.py#L88
+  - Add model detectors like `elif control_type == 'depth':` following https://github.com/williamyang1991/Rerender_A_Video/blob/b6cafb5d80a79a3ef831c689ffad92ec095f2794/webUI.py#L122
+  - One example is given [here](https://huggingface.co/spaces/Anonymous-sub/Rerender/discussions/10/files) 
+  
+</details>
+
+<details>
+<summary> <b>Advanced options for the 1st frame translation</b></summary>
+
+1. Resolution related (**Frame resolution**, **left/top/right/bottom crop length**): crop the frame and resize its short side to 512.
+2. ControlNet related:
+   - **ControlNet strength**: how well the output matches the input control edges
+   - **Control type**: HED edge or Canny edge
+   - **Canny low/high threshold**: low values for more edge details
+3. SDEdit related:
+   - **Denoising strength**: repaint degree (low value to make the output look more like the original video)
+   - **Preserve color**: preserve the color of the original video
+4. SD related:
+   - **Steps**: denoising step
+   - **CFG scale**: how well the output matches the prompt
+   - **Base model**: base Stable Diffusion model (SD 1.5)
+     - Stable Diffusion 1.5: official model
+     - [revAnimated_v11](https://civitai.com/models/7371/rev-animated?modelVersionId=19575): a semi-realistic (2.5D) model
+     - [realisticVisionV20_v20](https://civitai.com/models/4201?modelVersionId=29460): a photo-realistic model
+   - **Added prompt/Negative prompt**: supplementary prompts
+
+</details>
+
+<details>
+<summary> <b>Advanced options for the key frame translation</b></summary>
+
+1. Key frame related
+   - **Key frame frequency (K)**: Uniformly sample the key frame every K frames. Small value for large or fast motions.
+   - **Number of key frames (M)**: The final output video will have K*M+1 frames with M+1 key frames.
+2. Temporal consistency related
+   - Cross-frame attention: 
+     - **Cross-frame attention start/end**: When applying cross-frame attention for global style consistency
+     - **Cross-frame attention update frequency (N)**: Update the reference style frame every N key frames. Should be large for long videos to avoid error accumulation.
+   - **Shape-aware fusion** Check to use this feature 
+     - **Shape-aware fusion start/end**: When applying shape-aware fusion for local shape consistency
+   - **Pixel-aware fusion** Check to use this feature 
+     - **Pixel-aware fusion start/end**: When applying pixel-aware fusion for pixel-level temporal consistency
+     - **Pixel-aware fusion strength**: The strength to preserve the non-inpainting region. Small to avoid error accumulation. Large to avoid burry textures.
+     - **Pixel-aware fusion detail level**: The strength to sharpen the inpainting region. Small to avoid error accumulation. Large to avoid burry textures.
+     - **Smooth fusion boundary**: Check to smooth the inpainting boundary (avoid error accumulation).
+   - **Color-aware AdaIN** Check to use this feature 
+     - **Color-aware AdaIN start/end**: When applying AdaIN to make the video color consistent with the first frame
+
+</details>
+
+<details>
+<summary> <b>Advanced options for the full video translation</b></summary>
+  
+1. **Gradient blending**: apply Poisson Blending to reduce ghosting artifacts. May slow the process and increase flickers.
+2. **Number of parallel processes**: multiprocessing to speed up the process. Large value (8) is recommended.
+</details>
+
+![options](https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/ffebac15-e7e0-4cd4-a8fe-60f243450172)
+
+
+### Command Line
+
+We also provide a flexible script `rerender.py` to run our method.
+
+#### Simple mode
+
+Set the options via command line. For example,
 
 ```shell
-# step1: Use other models to remove degradations and save results in [img_dir_path].
-
-# step2: Refine details of step1 outputs.
-python inference.py \
---config configs/model/cldm.yaml \
---ckpt [full_ckpt_path] \
---steps 50 --sr_scale 1 --image_size 512 \
---input [img_dir_path] \
---color_fix_type wavelet --resize_back \
---output [output_dir_path] \
---disable_preprocess_model
+python rerender.py --input videos/pexels-antoni-shkraba-8048492-540x960-25fps.mp4 --output result/man/man.mp4 --prompt "a handsome man in van gogh painting"
 ```
 
-##  <a name="train"></a>:stars:Train
+The script will run the full pipeline. A work directory will be created at `result/man` and the result video will be saved as `result/man/man.mp4`
 
-### Degradation Details
+#### Advanced mode
 
-For general image restoration, we first train both the stage1 and stage2 model under codeformer degradation to enhance the generative capacity of the stage2 model. In order to improve the ability for degradation removal, we train another stage1 model under Real-ESRGAN degradation and utilize it during inference.
+Set the options via a config file. For example,
 
-For face image restoration, we adopt the degradation model used in [DifFace](https://github.com/zsyOAOA/DifFace/blob/master/configs/training/swinir_ffhq512.yaml) for training and directly utilize the SwinIR model released by them as our stage1 model.
-
-### Data Preparation
-
-1. Generate file list of training set and validation set.
-
-    ```shell
-    python scripts/make_file_list.py \
-    --img_folder [hq_dir_path] \
-    --val_size [validation_set_size] \
-    --save_folder [save_dir_path] \
-    --follow_links
-    ```
-    
-    This script will collect all image files in `img_folder` and split them into training set and validation set automatically. You will get two file lists in `save_folder`, each line in a file list contains an absolute path of an image file:
-    
-    ```
-    save_folder
-    ├── train.list # training file list
-    └── val.list   # validation file list
-    ```
-
-2. Configure training set and validation set.
-
-    For general image restoration, fill in the following configuration files with appropriate values.
-
-    - [training set](configs/dataset/general_deg_codeformer_train.yaml) and [validation set](configs/dataset/general_deg_codeformer_val.yaml) for **CodeFormer** degradation.
-    - [training set](configs/dataset/general_deg_realesrgan_train.yaml) and [validation set](configs/dataset/general_deg_realesrgan_val.yaml) for **Real-ESRGAN** degradation.
-
-    For face image restoration, fill in the face [training set](configs/dataset/face_train.yaml) and [validation set](configs/dataset/face_val.yaml) configuration files with appropriate values.
-
-### Train Stage1 Model
-
-1. Configure training-related information.
-
-    Fill in the configuration file of [training](configs/train_swinir.yaml) with appropriate values.
-
-2. Start training.
-
-    ```shell
-    python train.py --config [training_config_path]
-    ```
-
-    :bulb::Checkpoints of SwinIR will be used in training stage2 model.
-
-### Train Stage2 Model
-
-1. Download pretrained [Stable Diffusion v2.1](https://huggingface.co/stabilityai/stable-diffusion-2-1-base) to provide generative capabilities.
-
-    ```shell
-    wget https://huggingface.co/stabilityai/stable-diffusion-2-1-base/resolve/main/v2-1_512-ema-pruned.ckpt --no-check-certificate
-    ```
-
-2. Create the initial model weights.
-
-    ```shell
-    python scripts/make_stage2_init_weight.py \
-    --cldm_config configs/model/cldm.yaml \
-    --sd_weight [sd_v2.1_ckpt_path] \
-    --swinir_weight [swinir_ckpt_path] \
-    --output [init_weight_output_path]
-    ```
-
-    You will see some [outputs](assets/init_weight_outputs.txt) which show the weight initialization.
-
-3. Configure training-related information.
-
-    Fill in the configuration file of [training](configs/train_cldm.yaml) with appropriate values.
-
-4. Start training.
-
-    ```shell
-    python train.py --config [training_config_path]
-    ```
-
-##  <a name="update"></a>:new:Update
-
-- **2023.08.30**: Repo is released.
-- **2023.09.06**: Update [colab demo](https://colab.research.google.com/github/camenduru/DiffBIR-colab/blob/main/DiffBIR_colab.ipynb). Thanks to [camenduru](https://github.com/camenduru)!:hugs:
-- **2023.09.08**: Add support for restoring unaligned faces.
-
-##  <a name="todo"></a>:climbing:TODO
-
-- [x] Release code and pretrained models:computer:.
-- [x] Update links to paper and project page:link:.
-- [ ] Release real47 testset:minidisc:.
-- [ ] Reduce the memory usage of DiffBIR:smiley_cat:.
-- [ ] Provide HuggingFace demo:notebook:.
-- [ ] Upload inference code of latent image guidance:page_facing_up:.
-- [ ] Improve the performance:superhero:.
-- [ ] Add a patch-based sampling schedule:mag:.
-
-## Citation
-
-Please cite us if our work is useful for your research.
-
+```shell
+python rerender.py --cfg config/van_gogh_man.json
 ```
-@article{2023diffbir,
-  author    = {Xinqi Lin, Jingwen He, Ziyan Chen, Zhaoyang Lyu, Ben Fei, Bo Dai, Wanli Ouyang, Yu Qiao, Chao Dong},
-  title     = {DiffBIR: Towards Blind Image Restoration with Generative Diffusion Prior},
-  journal   = {arxiv},
-  year      = {2023},
+
+The script will run the full pipeline. 
+We provide some examples of the config in `config` directory. 
+Most options in the config is the same as those in WebUI. 
+Please check the explanations in the WebUI section.
+
+Specifying customized models by setting `sd_model` in config. For example:
+```json
+{
+  "sd_model": "models/realisticVisionV20_v20.safetensors",
 }
 ```
 
-## License
+#### Customize the pipeline
 
-This project is released under the [Apache 2.0 license](LICENSE).
+Similar to WebUI, we provide three-step workflow: Rerender the first key frame, then rerender the full key frames, finally rerender the full video with propagation. To run only a single step, specify options `-one`, `-nb` and `-nr`:
 
-## Acknowledgement
+1. Rerender the first key frame
+```shell
+python rerender.py --cfg config/van_gogh_man.json -one -nb
+```
+2. Rerender the full key frames
+```shell
+python rerender.py --cfg config/van_gogh_man.json -nb
+```
+3. Rerender the full video with propagation
+```shell
+python rerender.py --cfg config/van_gogh_man.json -nr
+```
 
-This project is based on [ControlNet](https://github.com/lllyasviel/ControlNet) and [BasicSR](https://github.com/XPixelGroup/BasicSR). Thanks for their awesome work.
+#### Our Ebsynth implementation
 
-## Contact
+We provide a separate Ebsynth python script `video_blend.py` with the temporal blending algorithm introduced in 
+[Stylizing Video by Example](https://dcgi.fel.cvut.cz/home/sykorad/ebsynth.html) for interpolating style between key frames. 
+It can work on your own stylized key frames independently of our Rerender algorithm. 
 
-If you have any questions, please feel free to contact with me at linxinqi@tju.edu.cn.
+Usage:
+```shell
+video_blend.py [-h] [--output OUTPUT] [--fps FPS] [--beg BEG] [--end END] [--itv ITV] [--key KEY]
+                      [--n_proc N_PROC] [-ps] [-ne] [-tmp]
+                      name
+
+positional arguments:
+  name             Path to input video
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --output OUTPUT  Path to output video
+  --fps FPS        The FPS of output video
+  --beg BEG        The index of the first frame to be stylized
+  --end END        The index of the last frame to be stylized
+  --itv ITV        The interval of key frame
+  --key KEY        The subfolder name of stylized key frames
+  --n_proc N_PROC  The max process count
+  -ps              Use poisson gradient blending
+  -ne              Do not run ebsynth (use previous ebsynth output)
+  -tmp             Keep temporary output
+```
+For example, to run Ebsynth on video `man.mp4`,
+1. Put the stylized key frames to `videos/man/keys` for every 10 frames (named as `0001.png`, `0011.png`, ...)
+2. Put the original video frames in `videos/man/video` (named as `0001.png`, `0002.png`, ...).
+3. Run Ebsynth on the first 101 frames of the video with poisson gradient blending and save the result to `videos/man/blend.mp4` under FPS 25 with the following command:
+```shell
+python video_blend.py videos/man \
+  --beg 1 \
+  --end 101 \
+  --itv 10 \
+  --key keys \
+  --output videos/man/blend.mp4 \
+  --fps 25.0 \
+  -ps
+```
+
+## (2) Results
+
+### Key frame translation
+
+
+<table class="center">
+<tr>
+  <td><img src="https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/18666871-f273-44b2-ae67-7be85d43e2f6" raw=true></td>
+  <td><img src="https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/61f59540-f06e-4e5a-86b6-1d7cb8ed6300" raw=true></td>
+  <td><img src="https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/8e8ad51a-6a71-4b34-8633-382192d0f17c" raw=true></td>
+  <td><img src="https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/b03cd35f-5d90-471a-9aa9-5c7773d7ac39" raw=true></td>
+</tr>
+<tr>
+  <td width=27.5% align="center">white ancient Greek sculpture, Venus de Milo, light pink and blue background</td>
+  <td width=27.5% align="center">a handsome Greek man</td>
+  <td width=21.5% align="center">a traditional mountain in chinese ink wash painting</td>
+  <td width=23.5% align="center">a cartoon tiger</td>
+</tr>
+</table>
+
+<table class="center">
+<tr>
+  <td><img src="https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/649a789e-0c41-41cf-94a4-0d524dcfb282" raw=true></td>
+  <td><img src="https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/73590c16-916f-4ee6-881a-44a201dd85dd" raw=true></td>
+  <td><img src="https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/fbdc0b8e-6046-414f-a37e-3cd9dd0adf5d" raw=true></td>
+  <td><img src="https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/eb11d807-2afa-4609-a074-34300b67e6aa" raw=true></td>
+</tr>
+<tr>
+  <td width=26.0% align="center">a swan in chinese ink wash painting, monochrome</td>
+  <td width=29.0% align="center">a beautiful woman in CG style</td>
+  <td width=21.5% align="center">a clean simple white jade sculpture</td>
+  <td width=24.0% align="center">a fluorescent jellyfish in the deep dark blue sea</td>
+</tr>
+</table>
+
+### Full video translation
+
+Text-guided virtual character generation.
+
+
+https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/1405b257-e59a-427f-890d-7652e6bed0a4
+
+
+https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/efee8cc6-9708-4124-bf6a-49baf91349fc
+
+
+Video stylization and video editing.
+
+
+https://github.com/williamyang1991/Rerender_A_Video/assets/18130694/1b72585c-99c0-401d-b240-5b8016df7a3f
+
+
+
+## Citation
+
+If you find this work useful for your research, please consider citing our paper:
+
+```bibtex
+@inproceedings{yang2023rerender,
+ title = {Rerender A Video: Zero-Shot Text-Guided Video-to-Video Translation},
+ author = {Yang, Shuai and Zhou, Yifan and Liu, Ziwei and and Loy, Chen Change},
+ booktitle = {ACM SIGGRAPH Asia Conference Proceedings},
+ year = {2023},
+}
+```
+
+## Acknowledgments
+
+The code is mainly developed based on [ControlNet](https://github.com/lllyasviel/ControlNet), [Stable Diffusion](https://github.com/Stability-AI/stablediffusion), [GMFlow](https://github.com/haofeixu/gmflow) and [Ebsynth](https://github.com/jamriska/ebsynth).
