@@ -1,0 +1,10 @@
+{
+  "run": [
+    {
+    "method": "shell.run",
+    "params": {
+      "message": "call activate reRenderVideo && python webUI.py"
+    }
+  }
+  ]
+}
