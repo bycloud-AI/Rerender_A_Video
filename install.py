@@ -1,12 +1,16 @@
 import os
 import platform
-
+import shutil
 import requests
 
 
 def build_ebsynth():
-    if os.path.exists('deps/ebsynth/bin/ebsynth.exe'):
-        print('Ebsynth has been built.')
+
+    
+    
+    if os.path.exists('deps/ebsynth.exe'):
+        print('Ebsynth is found, mooving it...')
+        shutil.move("deps/ebsynth.exe", "deps/ebsynth/bin/ebsynth.exe")
         return
 
     os_str = platform.system()
