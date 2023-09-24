@@ -5,7 +5,7 @@ import requests
 
 
 def build_ebsynth():
-    if os.path.exists('deps/ebsynth/bin/ebsynth'):
+    if os.path.exists('deps/ebsynth/bin/ebsynth.exe'):
         print('Ebsynth has been built.')
         return
 
