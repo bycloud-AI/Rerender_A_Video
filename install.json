@@ -40,7 +40,7 @@
     {
       "method": "shell.enter",
       "params": {
-      "message": "pip install xformers",
+      "message": "pip install xformers==0.0.21",
       "on": [{ "event": null, "return": true }]
     }
     },
