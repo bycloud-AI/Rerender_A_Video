@@ -6,7 +6,7 @@ This is a Windows tutorial with NVIDIA GPU for running Rerender A Video, but mad
 |**VRAM**|**>10GB? (not sure)**|
 
 
-You can watch the YouTube tutorial [here](https://youtu.be/dQw4w9WgXcQ)
+You can watch the YouTube tutorial [here](https://youtu.be/blhmneQfOXI)
 
 ## step 1: setting up the environment
 
