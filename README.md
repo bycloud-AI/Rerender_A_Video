@@ -30,7 +30,7 @@ Press **Install** to download all the dependencies in a conda env
 
 ![Screenshot 2023-09-10 133023](https://github.com/bycloud-AI/DiffBIR-Windows/assets/29135514/69621a37-892b-4814-9020-12745240b56e)
 
-
+This miniconda envornment can be used outside of Pinokio. So you can just use this script automate the installation processes for dependencies!
 
 ## step 2: Launching the webUI
 
